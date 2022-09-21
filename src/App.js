@@ -1,29 +1,33 @@
-import { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { useEffect, useState } from "react";
 
-class App extends Component {
-  constructor() {
-    super();
+export const App = () => {
+  const [monsters, setMonsters] = useState([]);
 
-    this.state = {
-      monsters: [],
-    };
-  }
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => console.log(response.json()))
+      .then((users) =>
+        setMonsters(
+          () => {
+            return users;
+          },
+          () => {
+            console.log("monsters : ", monsters);
+          }
+        )
+      );
+  });
 
-  render() {
-    return (
-      <div className="App">
-        {this.state.monsters.map((item) => {
-          return (
-            <div key={item.id}>
-              <h1>{item.name}</h1>
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
-}
-
-export default App;
+  return (
+    <div className="App">
+      <input />
+      {monsters.map((item) => {
+        return (
+          <div key={item.id}>
+            <h1>{item.name}</h1>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
